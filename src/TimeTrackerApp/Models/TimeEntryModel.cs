@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TimeTrackerApp.Domain;
 
 namespace TimeTrackerApp.Models
 {
     public class TimeEntryModel
     {
+        private TimeEntryModel()
+        {
+        }
         public long Id { get; set; }
 
         public long ProjectId { get; set; }
@@ -28,5 +32,22 @@ namespace TimeTrackerApp.Models
         public decimal HourRate { get; set; }
 
         public decimal Total => Hours * HourRate;
+
+        public static TimeEntryModel FromTimeEntry(TimeEntry timeEntry)
+        {
+            return new TimeEntryModel
+            {
+                Id = timeEntry.Id,
+                ProjectId = timeEntry.Project.Id,
+                ProjectName = timeEntry.Project.Name,
+                ClientName = timeEntry.Project.Client.Name,
+                UserId = timeEntry.User.Id,
+                UserName = timeEntry.User.Name,
+                EntryDate = timeEntry.EntryDate,
+                Hours = timeEntry.Hours,
+                Description = timeEntry.Description,
+                HourRate = timeEntry.HourRate
+            };
+        }
     }
 }
