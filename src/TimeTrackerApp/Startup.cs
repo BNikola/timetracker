@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TimeTrackerApp.Data;
+using FluentValidation.AspNetCore;
+using TimeTrackerApp.Models.Validation;
 
 namespace TimeTrackerApp
 {
@@ -29,7 +31,9 @@ namespace TimeTrackerApp
         {
             services.AddDbContext<TimeTrackerDbContext>(options => 
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();
+
+            services.AddControllers()
+                .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<UserInputModelValidator>());   // automatski registruje svaki novi validator
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
