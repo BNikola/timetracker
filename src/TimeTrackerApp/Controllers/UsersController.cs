@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ using TimeTrackerApp.Models;
 namespace TimeTrackerApp.Controllers
 {
     [ApiController]         // pravimo api kontrolere
+    [Authorize]
     [Route("/api/users")]   // rutiranje
     public class UsersController : Controller
     {
@@ -62,6 +64,7 @@ namespace TimeTrackerApp.Controllers
             };
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         // delete, not returning anything (ne treba preko get)
         public async Task<IActionResult> Delete(long id)
@@ -82,6 +85,7 @@ namespace TimeTrackerApp.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]      // post radi insert, put radi update
         public async Task<ActionResult<UserModel>> Create(UserInputModel model)
         {
@@ -98,6 +102,7 @@ namespace TimeTrackerApp.Controllers
             return CreatedAtAction(nameof(GetById), "users", new { id = user.Id }, resultModel);    // prva tri arg. definisu putanju a posljednji cijelog user-a (mora se vratiti i url)
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<UserModel>> Update(long id, UserInputModel model)
         {

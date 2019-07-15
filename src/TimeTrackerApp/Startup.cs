@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using TimeTrackerApp.Data;
 using FluentValidation.AspNetCore;
 using TimeTrackerApp.Models.Validation;
+using TimeTrackerApp.Extensions;
 
 namespace TimeTrackerApp
 {
@@ -31,6 +32,8 @@ namespace TimeTrackerApp
         {
             services.AddDbContext<TimeTrackerDbContext>(options => 
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddJwtBearerAuthentication(Configuration);
 
             services.AddControllers()
                 .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<UserInputModelValidator>());   // automatski registruje svaki novi validator
@@ -54,6 +57,8 @@ namespace TimeTrackerApp
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
