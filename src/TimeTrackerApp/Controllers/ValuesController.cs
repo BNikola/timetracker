@@ -14,6 +14,7 @@ namespace TimeTrackerApp.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            throw new Exception("Testing something");
             return new string[] { "value1", "value2" };
         }
 
