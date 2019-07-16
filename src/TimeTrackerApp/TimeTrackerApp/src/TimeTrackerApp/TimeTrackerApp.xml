@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TimeTrackerApp</name>
+    </assembly>
+    <members>
+        <member name="T:TimeTrackerApp.Controllers.UsersController">
+            <summary>
+            Encapsulates functionality for adding, modifying and deleting users.
+            </summary>
+        </member>
+        <member name="M:TimeTrackerApp.Controllers.UsersController.GetPage(System.Int32,System.Int32)">
+            <summary>
+            Gets a single page of users.
+            </summary>
+            <param name="page">Page to retrieve.</param>
+            <param name="size">Page size.</param>
+            <returns>PagedList of users.</returns>
+        </member>
+        <member name="T:TimeTrackerApp.Models.UserModel">
+            <summary>
+            Represents one time tracker user.
+            </summary>
+        </member>
+        <member name="P:TimeTrackerApp.Models.UserModel.Id">
+            <summary>
+            Gets or sets user id.
+            </summary>
+        </member>
+        <member name="P:TimeTrackerApp.Models.UserModel.Name">
+            <summary>
+            Gets or sets user name.
+            </summary>
+        </member>
+        <member name="P:TimeTrackerApp.Models.UserModel.HourRate">
+            <summary>
+            Gets or sets how much the user will be payed per hour.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -35,6 +35,8 @@ namespace TimeTrackerApp
 
             services.AddJwtBearerAuthentication(Configuration);
 
+            services.AddOpenApi();  // addopenapi from serviceCollectionExtensions drugi nacin; ServiceCollectionExtension.AddOpenAPi(services);
+
             services.AddControllers()
                 .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<UserInputModelValidator>());   // automatski registruje svaki novi validator
         }
@@ -61,6 +63,10 @@ namespace TimeTrackerApp
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseOpenApi();       // 
+
+            app.UseSwaggerUi3();    // prikaz na lijep nacin ovog UseOpenApi
 
             app.UseEndpoints(endpoints =>
             {
