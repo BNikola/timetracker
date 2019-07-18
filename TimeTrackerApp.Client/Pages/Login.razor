@@ -1,0 +1,71 @@
+﻿@page "/login"
+@inject HttpClient Http
+@inject ApiService ApiService
+@inject TokenAuthenticationStateProvider AuthStateProvider
+@inject IUriHelper UriHelper 
+@* sa ovim moze redirect na neku drugu stranicu*@
+
+<h1>Login</h1>
+
+<EditForm Model="@this">
+    <div class="form-group">
+        <label for="userId">User ID:</label>
+        <InputText Id="userId" @bind-Value="@UserId" Class="form-control" /> @* bind na property i input polje*@
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            @ErrorMessage
+        </div>
+    }
+
+    <button type="button" class="btn-secondary" onclick="@LogInRegular">
+        Login as Regular user
+    </button>
+    <button type="button" class="btn-primary" onclick="@LogInAdmin">
+        Login as Admin user
+    </button>
+</EditForm>
+
+@code {
+private string ErrorMessage { get; set; }
+private string UserId { get; set; } = string.Empty;
+
+public Task LogInRegular()
+{
+    return LogIn(false);
+}
+
+public Task LogInAdmin()
+{
+    return LogIn(true);
+}
+
+private async Task LogIn(bool admin)
+{
+    var url = Config.TokenUrl;
+    if(admin)
+    {
+        url += "?admin=true";
+    }
+
+    ErrorMessage = string.Empty;
+
+    try
+    {
+        var token = await Http.GetStringAsync(url);     // imamo token
+        var user = await ApiService.GetTAsync<UserModel>($"users/{UserId}", token);
+
+        await AuthStateProvider.SetTokenAndUserAsync(token, user);
+
+        UriHelper.NavigateTo("/");
+    }
+    catch (Exception ex)
+    {
+
+        ErrorMessage = ex.Message;
+    }
+}
+
+}

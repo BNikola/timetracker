@@ -37,6 +37,8 @@ namespace TimeTrackerApp
 
             services.AddOpenApi();  // addopenapi from serviceCollectionExtensions drugi nacin; ServiceCollectionExtension.AddOpenAPi(services);
 
+            services.AddCors();
+
             services.AddControllers()
                 .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<UserInputModelValidator>());   // automatski registruje svaki novi validator
         }
@@ -63,6 +65,14 @@ namespace TimeTrackerApp
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            // WARNING: This is just for demo purpose
+            // You should limit to a specific origin list
+            app.UseCors(
+                builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseOpenApi();       // 
 
