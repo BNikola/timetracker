@@ -1,5 +1,15 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
-    <NotFoundContent>
-        <p>Sorry, there's nothing at this address.</p>
-    </NotFoundContent>
-</Router>
+﻿<CascadingAuthenticationState> <!--prosljedjuje se svima kroz cijelu aplikaciju-->
+    <Router AppAssembly="typeof(Program).Assembly">
+        <NotFoundContent>
+            <p>Sorry, there's nothing at this address.</p>
+        </NotFoundContent>
+        <NotAuthorizedContent>
+            <h1>Access Denied</h1>
+            <p>Only the logged in users can access the TimeTrackerApp.</p>
+        </NotAuthorizedContent>
+        <AuthorizingContent>
+            Logging in...
+        </AuthorizingContent>
+    </Router>
+</CascadingAuthenticationState>
+
