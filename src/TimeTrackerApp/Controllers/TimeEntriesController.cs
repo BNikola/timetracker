@@ -47,6 +47,30 @@ namespace TimeTrackerApp.Controllers
             return TimeEntryModel.FromTimeEntry(timeEntry);
         }
 
+        [HttpGet]
+        [Route("user/{userId}/{year}/{month}")]    // /time-entries/user/2/2019/7 - izgled url-a
+        public async Task<ActionResult<TimeEntryModel[]>> GetByUserAndMonth(long userId, int year, int month)
+        {
+            _logger.LogInformation($"Getting all time entries for user with id: {userId} for month {year}-{month}");
+
+            // filtriranje time-entries-a
+            var startDate = new DateTime(year, month, 1);       // pocetak mjeseca
+            var endDate = startDate.Date.AddMonths(1);          // dodati mjesec dana na start date -> end date je prvi u narednom mjesecu
+
+            var timeEntries = await _dbContext.TimeEntries
+                .Include(x => x.User)
+                .Include(x => x.Project)
+                .Include(x => x.Project.Client)
+                .Where(x => x.User.Id == userId && x.EntryDate >= startDate && x.EntryDate < endDate)
+                .OrderBy(x => x.EntryDate)
+                .ToListAsync();
+
+            return timeEntries
+                .Select(TimeEntryModel.FromTimeEntry)
+                .ToArray();
+
+        }
+
 
         [HttpGet]
         public async Task<ActionResult<PagedList<TimeEntryModel>>> GetPage(int page = 1, int size = 5)

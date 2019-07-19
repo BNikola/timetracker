@@ -52,11 +52,11 @@ namespace TimeTrackerApp.Client.Services
                     HttpMethod.Put, url, inputModel);
             return response.IsSuccessStatusCode;
         }
-        public async Task<bool> DeleteAsync<T>(
+        public async Task<bool> DeleteAsync(
             string url)
         {
             var response =
-                await SendAuthorizedRequest<T>(
+                await SendAuthorizedRequest<object>(
                     HttpMethod.Delete, url);
             return response.IsSuccessStatusCode;
         }
