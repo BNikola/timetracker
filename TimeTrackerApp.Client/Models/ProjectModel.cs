@@ -1,11 +1,13 @@
 ﻿namespace TimeTrackerApp.Client.Models
 {
-    public class UserModel
+    public class ProjectModel
     {
         public long Id { get; set; }
 
         public string Name { get; set; }
 
-        public decimal HourRate { get; set; }
+        public long ClientId { get; set; }
+
+        public string ClientName { get; set; }
     }
 }

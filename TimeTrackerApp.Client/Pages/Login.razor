@@ -55,7 +55,7 @@ private async Task LogIn(bool admin)
     try
     {
         var token = await Http.GetStringAsync(url);     // imamo token
-        var user = await ApiService.GetTAsync<UserModel>($"users/{UserId}", token);
+        var user = await ApiService.GetAsync<UserModel>($"users/{UserId}", token);
 
         await AuthStateProvider.SetTokenAndUserAsync(token, user);
 
